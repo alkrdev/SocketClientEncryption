@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30413.136
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SocketClient", "SocketClient\SocketClient.csproj", "{B426A556-DCCB-47E5-827A-F86E83959D41}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SecureKeyExchange", "DiffiHellman\SecureKeyExchange.csproj", "{67B07533-E9A1-4DA1-8FF6-B68DAF4755E5}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B426A556-DCCB-47E5-827A-F86E83959D41}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B426A556-DCCB-47E5-827A-F86E83959D41}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B426A556-DCCB-47E5-827A-F86E83959D41}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B426A556-DCCB-47E5-827A-F86E83959D41}.Release|Any CPU.Build.0 = Release|Any CPU
+		{67B07533-E9A1-4DA1-8FF6-B68DAF4755E5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{67B07533-E9A1-4DA1-8FF6-B68DAF4755E5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{67B07533-E9A1-4DA1-8FF6-B68DAF4755E5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{67B07533-E9A1-4DA1-8FF6-B68DAF4755E5}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {03AA98B6-D05E-46E8-ADD5-67CA4E6CE663}
+	EndGlobalSection
+EndGlobal
