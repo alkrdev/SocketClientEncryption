@@ -1,1 +1,3 @@
-SocketClientEncryption
+## SocketClientEncryption
+
+Created by Alexander Kristensen
