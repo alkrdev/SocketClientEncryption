@@ -5,9 +5,7 @@ using System;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
-using System.Runtime.InteropServices;
 using System.Text;
-using System.Text.Json.Serialization;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
@@ -59,10 +57,16 @@ namespace SocketClient
                         {
                             byte[] buffer = new byte[client.ReceiveBufferSize];
 
+                            var KeyData = dh.PublicKey.Select(b => (int)b).ToArray();
+                            var serializedKeyData = JsonConvert.SerializeObject(KeyData);
+
+                            var IVData = dh.IV.Select(b => (int)b).ToArray();
+                            var serializedData = JsonConvert.SerializeObject(IVData);
+
                             var obj = new 
                             {
-                                publicKey = dh.PublicKey,
-                                IV = dh.IV
+                                publicKey = serializedKeyData,
+                                IV = serializedData
                             };
 
                             var jsonString = JsonConvert.SerializeObject(obj);
@@ -80,11 +84,11 @@ namespace SocketClient
                                 var value = Encoding.UTF8.GetString(buffer);
                                 dynamic recObj = JObject.Parse(value);
 
-                                string data = recObj.encryptedMessage;
-                                byte[] dataBytes = Encoding.UTF8.GetBytes(data);
+                                JValue RecData = (JValue)recObj["encryptedMessage"];
+                                byte[] dataBytes = Encoding.UTF8.GetBytes((string)RecData.Value);
 
-                                string IVData = recObj.IV;
-                                byte[] IVDataBytes = Encoding.UTF8.GetBytes(IVData);
+                                JValue RecIVData = (JValue)recObj["IV"];
+                                byte[] IVDataBytes = Encoding.UTF8.GetBytes((string)RecIVData.Value);
 
                                 var decrypted = dh.DecryptString(dataBytes, dh.PublicKey, IVDataBytes);
 
@@ -122,23 +126,34 @@ namespace SocketClient
 
                 //---convert the data received into a string---
                 var value = Encoding.UTF8.GetString(buffer);
-                dynamic obj = JObject.Parse(value);
+                JObject obj = JObject.Parse(value);
 
-                dh.PublicKey = obj.publicKey;
+                JValue keyArrayValue = (JValue)obj["publicKey"];
+
+                Console.WriteLine("Public key: " + (string)keyArrayValue.Value);
+
+                var keyArray = JsonConvert.DeserializeObject<byte[]>((string)keyArrayValue.Value);
+
+                //byte[] keyByteArray = keyArray.Select(b => b).ToArray();
+
+                dh.PublicKey = keyArray;
 
                 while (true)
                 {
                     Console.Write("Write your message here: ");
                     string text = Console.ReadLine();
+                    Console.WriteLine("Message: " + text);
+
                     var encrypted = dh.EncryptString(text, dh.PublicKey);
-
-
+                    Console.WriteLine("Encrypted Message: " + Encoding.ASCII.GetString(encrypted));
 
                     var sendObj = new
                     {
                         encryptedMessage = encrypted,
                         IV = dh.IV
                     };
+
+                    Console.WriteLine("IV used: " + Encoding.ASCII.GetString(sendObj.IV));
 
                     var jsonString = JsonConvert.SerializeObject(sendObj);
 
